@@ -24,7 +24,7 @@
 #include "indri/TwoStageTermScoreFunction.hpp"
 #include "indri/Parameters.hpp"
 #include "indri/LaplaceTermScoreFunction.hpp"//add LaplaceTermScoreFunction.hpp
-
+#include "indri/JelinekMercerLaplaceTermScoreFunction.hpp"
 static void termscorefunctionfactory_parse( indri::api::Parameters& converted, const std::string& spec );
 
 //
@@ -62,14 +62,24 @@ indri::query::TermScoreFunction* indri::query::TermScoreFunctionFactory::get( co
   }
 
   else if ( method == "laplace" || method == "l" || method == "lap" ){
-    // laplace -- takes parameter "mu"
-    // laplace -- takes parameter "alpha"
+    // laplace -- takes parameter "alpha" & index path
     double alpha = spec.get( "alpha", 1.0 );
-    double mu = spec.get( "mu", 2500 );
-    double docmu=spec.get("documentMu",-1.0); // default is no doc-level smoothing
-    return new indri::query::LaplaceTermScoreFunction(alpha, mu, collectionFrequency, docmu ); 
+    return new indri::query::LaplaceTermScoreFunction(alpha,spec.get( "index", "" )); 
   }
+else if( method == "linear-l" || method == "jml" || method == "jelinek-mercer-laplace" ) {
+// jelinek-mercer -- can take parameters collectionLambda (or just lambda) and documentLambda
+    double documentLambda = spec.get( "documentLambda", 0.0 );
+    double collectionLambda;
+    
+    if( spec.exists( "collectionLambda" ) )
+      collectionLambda = spec.get( "collectionLambda", 0.4 );
+    else
+      collectionLambda = spec.get( "lambda", 0.4 );
 
+
+    return new indri::query::JelinekMercerLaplaceTermScoreFunction( collectionFrequency, collectionLambda, documentLambda,spec.get( "index", "" ));
+	
+  }
  else if( method == "linear" || method == "jm" || method == "jelinek-mercer" ) {
     // jelinek-mercer -- can take parameters collectionLambda (or just lambda) and documentLambda
     double documentLambda = spec.get( "documentLambda", 0.0 );

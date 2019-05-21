@@ -1,0 +1,12 @@
+<parameters>
+	<baseline>okapi,k1=2.0, b:0.75</baseline>  
+	<index>/home/whuang022/workspace/WT2G_index_no_stemming</index>
+	<count>1000</count>
+	<query>
+		<type>indri</type>
+		<number>401</number>
+		<text>
+		  foreign minorities germany
+		</text>
+	</query>
+</parameters>

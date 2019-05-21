@@ -1,0 +1,12 @@
+<parameters>
+	<method>method:jelinek-mercer-laplace,collectionLambda:0.8,field:title,index=/home/whuang022/workspace/WT2G_index_no_stemming</method> 
+	<index>/home/whuang022/workspace/WT2G_index_no_stemming</index>
+	<count>1000</count>
+	<query>
+		<type>indri</type>
+		<number>401</number>
+		<text>
+		  foreign minorities germany
+		</text>
+	</query>
+</parameters>

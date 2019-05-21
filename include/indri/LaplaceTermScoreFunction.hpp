@@ -1,6 +1,4 @@
 
-
-
 //
 // LaplaceTermScoreFunction
 //
@@ -9,44 +7,31 @@
 
 #ifndef INDRI_LAPLACETERMSCOREFUNCTION_HPP
 #define INDRI_LAPLACETERMSCOREFUNCTION_HPP
-
+#include <indri/QueryEnvironment.hpp>
 #include <math.h>
+#include <iostream>
 namespace indri
 {
-  /*! Query processing, smoothing, and scoring classes. */
   namespace query
   {
     
     class LaplaceTermScoreFunction : public TermScoreFunction {
     private:
-      
-      double _mu;
-      double _docmu;
-      double _collectionFrequency;
-      double _muTimesCollectionFrequency;
       double _alpha;
-
+      indri::api::QueryEnvironment *env;
     public:
-      LaplaceTermScoreFunction(double alpha, double mu, double collectionFrequency, double docmu=-1.0 ) {
-        _collectionFrequency = collectionFrequency;
-        _mu = mu;
+      LaplaceTermScoreFunction(double alpha , const std::string& indexName) {
         _alpha = alpha;
-        _muTimesCollectionFrequency = _mu * _collectionFrequency;
-        _docmu = docmu;
+	env = new indri::api::QueryEnvironment(); 
+	env->addIndex(indexName);
       }
 
       double scoreOccurrence( double occurrences, int contextSize ) {
-        double seen = ( double(occurrences) + _alpha ) / ( double(contextSize) + _alpha*_mu );
+        double seen = ( double(occurrences) + _alpha ) / ( double(contextSize) + double(env->termCountUnique ()) );
         return log( seen );
       }
-
       double scoreOccurrence( double occurrences, int contextSize, double documentOccurrences, int documentLength ) {
-        if (_docmu < 0)
-          return scoreOccurrence(occurrences, contextSize);
-        else {
-          double seen = (occurrences+_docmu*(_muTimesCollectionFrequency+documentOccurrences)/(double(documentLength)+_mu))/(double(contextSize)+_docmu);
-          return log(seen);
-        }
+         return scoreOccurrence( occurrences, contextSize );
       }
     };
   }

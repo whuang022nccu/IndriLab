@@ -1,0 +1,12 @@
+<parameters>
+	<rule>method:linear,collectionLambda:0.4,documentLambda:0.0</rule>  
+	<index>/home/whuang022/workspace/WT2G_index</index>
+	<count>100</count>
+	<query>
+		<type>indri</type>
+		<number>451</number>
+		<text>
+		  #combine(king)
+		</text>
+	</query>
+</parameters>

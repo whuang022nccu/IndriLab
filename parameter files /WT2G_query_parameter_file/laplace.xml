@@ -1,0 +1,12 @@
+<parameters>
+	<method>laplace,alpha=1.0,index=/home/whuang022/workspace/WT2G_index</method>  
+	<index>/home/whuang022/workspace/WT2G_index</index>
+	<count>1000</count>
+	<query>
+		<type>indri</type>
+		<number>401</number>
+		<text>
+		  foreign minorities germany
+		</text>
+	</query>
+</parameters>
