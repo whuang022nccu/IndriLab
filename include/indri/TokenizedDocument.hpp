@@ -35,10 +35,10 @@ namespace indri {
       const char* content;
       size_t contentLength;
 
-      indri::utility::greedy_vector<char*> terms;
-      indri::utility::greedy_vector<TagEvent> tags;
-      indri::utility::greedy_vector<TermExtent> positions;
-      indri::utility::greedy_vector<MetadataPair> metadata;
+      indri::utility::greedy_vector<char*> terms; //term by term
+      indri::utility::greedy_vector<TagEvent> tags;//xml file`s node start termid & end term id of terms //https://blog.csdn.net/spche/article/details/5181934
+      indri::utility::greedy_vector<TermExtent> positions;//term`s begin end char id in document
+      indri::utility::greedy_vector<MetadataPair> metadata;//other info
     };
   }
 }
